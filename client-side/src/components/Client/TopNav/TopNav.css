@@ -1,0 +1,34 @@
+/* Container for the top navigation */
+.topnav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px;
+  }
+  
+  /* Logo styling */
+  .topnav-logo img {
+    height: 40px;
+    width: auto;
+  }
+  
+  /* Container for icons (bell and profile) */
+  .topnav-icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Styling for notification bell and profile icons */
+  .topnav-icons .icon {
+    height: 30px;
+    width: 30px;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+  
+  /* Optional: Adjust profile icon to be circular */
+  .profile-icon {
+    border-radius: 50%;
+  }
+  

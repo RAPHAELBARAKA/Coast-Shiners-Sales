@@ -1,0 +1,34 @@
+html, body {
+    height: 100%;
+    background-color: #d9d9d9;
+    margin: 0;
+}
+
+.verifyotp-page-container {
+    min-height: 100vh; 
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+}
+
+/* Center the logo */
+.verifyotp-logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Center the login form */
+.verifyotp-form-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Media query to hide the logo on small screens */
+@media only screen and (max-width: 600px) {
+    .verifyotp-logo-container {
+        display: none; /* Hide the logo */
+    }
+
+    .verifyotp-page-container {
+        grid-template-columns: 1fr; /* Switch to a single column layout */
+    }
+}

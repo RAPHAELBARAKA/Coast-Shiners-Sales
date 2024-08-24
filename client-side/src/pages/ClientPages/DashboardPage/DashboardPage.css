@@ -1,0 +1,62 @@
+/* Layout container using grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 4fr; /* Sidebar (1fr when expanded) and Main Content (4fr) */
+  height: 100vh;
+  transition: grid-template-columns 0.4s ease-in-out; /* Smooth transition for resizing */
+}
+
+/* Collapsed Sidebar */
+.dashboard-grid.collapsed {
+  grid-template-columns: 0.2fr 4fr; /* Sidebar reduced to 0.2fr when collapsed */
+}
+
+/* Sidebar styling */
+.sidebar {
+  background-color: #27035A;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Main content styling */
+.main-content {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Top, Center, Bottom sections */
+}
+
+/* Top section (TopNav) styling */
+.top-section {
+    padding: 5px 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Adjusted for better visibility */
+    z-index: 10; /* Ensure it's on top */
+    position: relative; /* Ensure proper positioning */
+  }
+
+/* Center section styling */
+.center-section {
+  grid-template-rows: 0.2fr 2fr 2fr;
+  display:grid;
+  overflow-y: auto; /* Optional: Add scroll if content overflows */
+}
+.greetings, .popular, .my-orders {
+    padding: 10px;
+  }
+  .greetings{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .login{
+    font-weight: 600;
+  }
+  .welcome{
+    font-size: 22px;
+    font-weight: 700;
+  }
+/* Bottom section (BottomNav) styling */
+.bottom-section {
+  background-color: #fff;
+  text-align: center;
+  color:#97150D;
+  padding: 10px 20px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
