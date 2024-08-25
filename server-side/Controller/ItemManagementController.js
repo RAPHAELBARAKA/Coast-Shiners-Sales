@@ -1,38 +1,43 @@
-
 const AdminItemManagement = require("../Model/AdminItemManagement");
+
 exports.addItem = async (req, res) => {
   try {
-    if (!req.file || !req.body.code) {
-      return res.status(400).json({ message: 'Image or name missing' });
-    }
-    const { code } = req.body; // Extract name from request body
-    const imagePath = req.file.path;
-    const newItem = new AdminItemManagement({ code, image: imagePath }); // Save name along with image
-    await newItem.save();
-    res.status(200).json({ imagePath, code }); // Send both image path and name in the response
-  } catch (error) {
-    console.error('Failed to upload service:', error);
-    res.status(500).json({ message: 'Failed to upload service' });
-  }
+    const { code, description, price } = req.body;
 
+    // Validate required fields
+    if (!req.file || !code || !description || !price) {
+      return res.status(400).json({ message: 'Image, code, description, or price missing' });
+    }
+
+    const imagePath = req.file.path;
+
+    // Create a new item with code, description, price, and image path
+    const newItem = new AdminItemManagement({
+      code,
+      description,
+      price,
+      image: imagePath
+    });
+
+    await newItem.save();
+
+    res.status(200).json({ imagePath, code, description, price }); // Send response with all fields
+  } catch (error) {
+    console.error('Failed to upload item:', error);
+    res.status(500).json({ message: 'Failed to upload item' });
+  }
 };
+
 exports.getItem = async (req, res) => {
   try {
-    // Get code from query parameters
     const code = req.query.code;
-
-    // If code is provided, filter items by code
     const filter = code ? { code } : {};
 
-    const items = await AdminItemManagement.find(filter);
-    
-    // Ensure the response is an array
-    if (!Array.isArray(items)) {
-      console.error('Expected an array but got:', typeof items);
-      return res.status(500).json({ message: 'Server error, expected array but got non-array' });
-    }
+    const recentItems = await AdminItemManagement.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(1);
 
-    res.status(200).json(items);
+    res.status(200).json(recentItems);
   } catch (error) {
     console.error('Error fetching items:', error);
     res.status(500).json({ message: 'Failed to fetch items' });

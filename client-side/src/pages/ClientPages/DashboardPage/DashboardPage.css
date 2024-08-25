@@ -2,7 +2,7 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 4fr; /* Sidebar (1fr when expanded) and Main Content (4fr) */
-  height: 100vh;
+  height: 100vh; /* Full height */
   transition: grid-template-columns 0.4s ease-in-out; /* Smooth transition for resizing */
 }
 
@@ -14,31 +14,36 @@
 /* Sidebar styling */
 .sidebar {
   background-color: #27035A;
+  position: relative; /* Make it static */
+  height: 100vh; /* Full height */
   transition: all 0.4s ease-in-out;
+  overflow: hidden; /* Hide any overflow */
 }
 
 /* Main content styling */
 .main-content {
   display: grid;
-  grid-template-rows: auto 1fr auto; /* Top, Center, Bottom sections */
+  grid-template-rows: auto 1fr auto; /* Top, Center (scrollable), Bottom sections */
+  height: 100vh; /* Ensure the height of the main content is also 100% of the viewport height */
 }
 
 /* Top section (TopNav) styling */
 .top-section {
-    padding: 5px 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Adjusted for better visibility */
-    z-index: 10; /* Ensure it's on top */
-    position: relative; /* Ensure proper positioning */
-  }
+  padding: 5px 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Adjusted for better visibility */
+  z-index: 10; /* Ensure it's on top */
+  position: sticky; /* Fix the position */
+  top: 0; /* Stick to the top */
+}
 
 /* Center section styling */
 .center-section {
-  grid-template-rows: 0.2fr 2fr 2fr;
+  grid-template-rows: 0.1fr 3fr 3fr;
   display:grid;
   overflow-y: auto; /* Optional: Add scroll if content overflows */
 }
 .greetings, .popular, .my-orders {
-    padding: 10px;
+    padding: 5px;
   }
   .greetings{
     display: flex;
@@ -49,14 +54,16 @@
     font-weight: 600;
   }
   .welcome{
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
   }
 /* Bottom section (BottomNav) styling */
 .bottom-section {
   background-color: #fff;
   text-align: center;
-  color:#97150D;
+  color: #97150D;
   padding: 10px 20px;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Fix the position */
+  bottom: 0; /* Stick to the bottom */
 }

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PopularItems.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
+import arrow from '../../../assets/arrow.png';
 
 function PopularItems() {
   const [popularItems, setPopularItems] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate
 
-  // Mapping numbers to category names
-  const categoryMapping = {
+  const popularMapping = {
     1: 'Food',
     2: 'Household',
     3: 'Clothing',
@@ -19,24 +21,20 @@ function PopularItems() {
   useEffect(() => {
     const fetchPopularItems = async () => {
       try {
-        // Fetch items for each category code
         const fetchItems = async (code) => {
           try {
             const response = await axios.get(`http://localhost:3000/get-item?code=${code}`);
-            return response.data;
+            return response.data[0]; // Get the most recent item
           } catch (error) {
             console.error(`Error fetching items for code ${code}:`, error);
-            return [];
+            return null;
           }
         };
 
-        // Fetch items for all categories
         const fetchAllItems = async () => {
-          const promises = Object.keys(categoryMapping).map(code => fetchItems(code));
+          const promises = Object.keys(popularMapping).map(code => fetchItems(code));
           const results = await Promise.all(promises);
-          
-          // Combine all items into a single array
-          const allItems = results.flat();
+          const allItems = results.filter(item => item !== null);
           setPopularItems(allItems);
         };
 
@@ -50,30 +48,44 @@ function PopularItems() {
     fetchPopularItems();
   }, []);
 
+  const handleClick = (popular, image, description, price) => {
+    // Carry all necessary data (image, description, and price) without displaying them
+    console.log(`Selected item details: ${popular}, ${image}, ${description}, ${price}`);
+    // Navigate to the next page with the image, description, and price in state
+    navigate(`/popular/${popular}`, { state: { image, description, price } });
+  };
+
   return (
     <div className="popular-items-container">
       <h2 className="popular-items-heading">Popular Items</h2>
       <div className="popular-items-grid">
-        {Object.keys(categoryMapping).map((code) => {
-          // Filter items by category code
-          const categoryItems = popularItems.filter(item => item.code === code);
-
-          return (
-            <div key={code} className="popular-item-box">
-              <h3 className="item-title">{categoryMapping[code]}</h3>
+        {popularItems.length > 0 ? (
+          popularItems.map((item, index) => (
+            <div
+              key={index}
+              className="popular-item-box"
+              onClick={() => handleClick(
+                popularMapping[item.code], 
+                `http://localhost:3000/${item.image}`, 
+                item.description, 
+                item.price
+              )}
+            >
+              <h3 className="item-title">{popularMapping[item.code]}</h3>
               <div className="items-row">
-                {categoryItems.length > 0 ? (
-                  <div className="item-container">
-                    <img src={`http://localhost:3000/${categoryItems[0].image}`} alt={categoryMapping[code]} className="item-image" />
-                  </div>
-                ) : (
-                  <p>No items available</p>
-                )}
+                <div className="item-container">
+                  <img src={`http://localhost:3000/${item.image}`} alt={popularMapping[item.code]} className="item-image" />
+                </div>
               </div>
-              <h4 className="view">view</h4>
+              <ul className="view">
+                <p>view</p>
+                <img src={arrow} alt="arrow" />
+              </ul>
             </div>
-          );
-        })}
+          ))
+        ) : (
+          <p>No popular items available</p>
+        )}
       </div>
     </div>
   );

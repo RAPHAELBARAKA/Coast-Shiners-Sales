@@ -4,17 +4,19 @@ import './MyOrders.css'; // Import CSS for styling
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
+  const [showAll, setShowAll] = useState(false); // Track whether to show all rows
 
-  // Fetch order data using axios
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('/api/orders'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:3000/api/orders'); // Replace with your API endpoint
         console.log('Orders data:', response.data);
 
         // Check if the data is an array and set it
         if (Array.isArray(response.data)) {
-          setOrders(response.data);
+          // Sort the orders by date (most recent first)
+          const sortedOrders = response.data.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+          setOrders(sortedOrders);
         } else {
           console.error('Expected an array but got:', typeof response.data);
         }
@@ -26,9 +28,13 @@ function MyOrders() {
     fetchOrders();
   }, []);
 
+  const toggleShowAll = () => {
+    setShowAll(!showAll); // Toggle the visibility of the full list
+  };
+
   return (
     <div className="orders-container">
-      <h2>My Orders</h2>
+      <h3>My Recent Orders</h3>
       <table className="orders-table">
         <thead>
           <tr>
@@ -41,11 +47,18 @@ function MyOrders() {
         </thead>
         <tbody>
           {orders.length > 0 ? (
-            orders.map((order, index) => (
+            // Display only the first two rows unless showAll is true
+            orders.slice(0, showAll ? orders.length : 1).map((order, index) => (
               <tr key={index}>
                 <td>{order.orderNumber}</td>
-                <td>{new Date(order.date).toLocaleDateString()}</td>
-                <td>{order.items.map(item => item.name).join(', ')}</td>
+                <td>{new Date(order.orderDate).toLocaleDateString('en-GB')}</td>
+                <td>
+                  {order.items.map((item, index) => (
+                    <div key={index} className="item-description">
+                      {item.description}
+                    </div>
+                  ))}
+                </td>
                 <td>{order.items.reduce((total, item) => total + item.quantity, 0)}</td>
                 <td>{order.status}</td>
               </tr>
@@ -57,6 +70,12 @@ function MyOrders() {
           )}
         </tbody>
       </table>
+
+      {orders.length > 1 && (
+        <div className="toggle-show-all" onClick={toggleShowAll}>
+          {showAll ? 'See Less' : 'Click to see All orders'} &#9660;
+        </div>
+      )}
     </div>
   );
 }

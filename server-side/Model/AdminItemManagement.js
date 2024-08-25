@@ -7,17 +7,26 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
   .catch((error) => {
     console.error("Failed to connect to MongoDB:", error);
   });
-const itemSchema = new mongoose.Schema({
-    image: {
-        type: String,
-        required: true
-    } ,
-    code: {
-      type: String,
-      required: true
-  }
 
-});
+const itemSchema = new mongoose.Schema({
+  image: {
+    type: String,
+    required: true
+  },
+  code: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  }
+}, 
+{ timestamps: true }); // Adding timestamps to the schema
 
 const AdminItemManagement = mongoose.model('AdminItemManagement', itemSchema);
 

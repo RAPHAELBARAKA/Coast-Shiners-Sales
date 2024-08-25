@@ -1,0 +1,115 @@
+/* General container styling */
+.one-popular-container {
+    padding: 20px;
+  }
+  
+  /* Box styling */
+  .one-popular-box {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Image container styling */
+  .popular-image {
+    display: flex;
+    border-radius: 10px;
+    width: 30%;
+    padding: 5px;
+    background-color: white;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 20px; /* Added some space between image and details */
+  }
+  
+  .popular-image img {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px;
+  }
+  
+  /* Details container styling */
+  .popular-details {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .popular-category {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .popular-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .popular-details-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .popular-details-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .popular-details-table td:first-child {
+    font-weight: bold;
+  }
+  
+  /* Quantity controls styling */
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-button {
+    background-color: #97150D;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 4px;
+    margin: 0 5px; /* Space between buttons */
+  }
+  .add{
+    background-color: #97150D;
+    border: none;
+    color: #fff;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    border-radius: 4px; 
+     margin: 0 5px; /* Space between buttons */
+
+
+  }
+  .quantity-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .quantity-display {
+    font-size: 1rem;
+    margin: 0 10px;
+  }
+  
+  /* Price styling */
+  .popular-price {
+    font-size: 18px;
+    color: #28a745; /* Green color for the price */
+    font-weight: bold;
+  }
+  

@@ -8,6 +8,8 @@ import VerifypassOtpPage from '../pages/UserPages/VerifypassOtpPage/VerifypassOt
 import DashboardPage from "../pages/ClientPages/DashboardPage/DashboardPage";
 import AdminDashboardPage from "../pages/AdminPages/AdminDashboardPage/AdminDashboardPage";
 import ItemManagementPage from "../pages/AdminPages/ItemManagementPage/ItemManagementPage";
+import OnePopularPage from "../pages/ClientPages/OnePopularPage/OnePopularPage";
+import CartPage from "../pages/ClientPages/CartPage/CartPage";
 
 function AppRoutes() {
   return (
@@ -22,6 +24,8 @@ function AppRoutes() {
         <Route path="/verify-passotp" element={< VerifypassOtpPage />} />
         <Route path="/admin-dashboard" element={< AdminDashboardPage />} />
         <Route path="/item-management" element={< ItemManagementPage />} />
+        <Route path="/popular/:popular" element={<OnePopularPage />} />
+        <Route path="/cart" element={<CartPage/>} />
 
 
       </Routes>

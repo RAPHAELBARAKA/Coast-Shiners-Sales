@@ -5,44 +5,46 @@ const ItemManagement = () => {
   const [image, setImage] = useState(null);
   const [items, setItems] = useState([]);
   const [itemName, setItemName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
   const [editServiceName, setEditServiceName] = useState('');
   const [editServiceId, setEditServiceId] = useState('');
   const [loading, setLoading] = useState(true); // New state for loading indicator
   const [error, setError] = useState(null); // New state for error handling
 
-  {/* useEffect(() => {
-    fetchServices();
-  }, []);
-
- const fetchServices = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/fetch-services');
-      setServices(response.data.services || []); // Set services or an empty array if undefined
-      setLoading(false); // Set loading to false when data is fetched successfully
-    } catch (error) {
-      setError(error); // Set error state if request fails
-      setLoading(false); // Set loading to false in case of error
-    }
-  };*/}
-
+  // Handle image selection
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
+  // Handle name change
   const handleNameChange = (e) => {
     setItemName(e.target.value);
   };
 
+  // Handle description change
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  // Handle price change
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+
+  // Handle edit change
   const handleEditNameChange = (e) => {
     setEditServiceName(e.target.value);
   };
 
+  // Handle item edit
   const handleEdit = (id, name) => {
     setEditServiceId(id);
     setEditServiceName(name);
   };
 
- const handleEditSubmit = async () => {
+  // Submit edited item
+  const handleEditSubmit = async () => {
     try {
       await axios.put(`http://localhost:3000/edit-service/${editServiceId}`, { code: editServiceName });
       alert('Service updated successfully');
@@ -53,10 +55,13 @@ const ItemManagement = () => {
     }
   };
 
+  // Handle upload with description and price
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('code', itemName);
+    formData.append('description', description);
+    formData.append('price', price);
 
     try {
       await axios.post('http://localhost:3000/add-item', formData, {
@@ -64,49 +69,37 @@ const ItemManagement = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('Service uploaded successfully');
+      alert('Item uploaded successfully');
       setImage(null); // Reset image state after upload
-      setItemName(''); // Reset service name state after upload
+      setItemName(''); // Reset item name state after upload
+      setDescription(''); // Reset description state after upload
+      setPrice(''); // Reset price state after upload
     } catch (error) {
-      console.error('Failed to upload service:', error);
+      console.error('Failed to upload item:', error);
     }
   };
 
- {/* const handleDelete = async (serviceId) => {
-    try {
-      await axios.delete(`http://localhost:3000/delete-service/${serviceId}`);
-      alert('Service deleted successfully');
-      fetchServices(); // Refresh the service gallery after deletion
-    } catch (error) {
-      console.error('Failed to delete service:', error);
-    }
-  };
-
-  // Display loading indicator if data is being fetched
-  if (loading) {
-    return <p>Loading services...</p>;
-  }
-
-  // Display error message if request fails
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }*/}
-
+  // Render the form for adding and editing items
   return (
     <div>
       <h2>Item Management</h2>
       <div>
         <h3>Add Item</h3>
         <input type="file" onChange={handleImageChange} />
-        <p>1.Food
-           2.Household
-           3.Clothing
-           4.Office Items
-           5.Electronics
-           6.Healthcare</p>
+        <p>
+          1.Food
+          2.Household
+          3.Clothing
+          4.Office Items
+          5.Electronics
+          6.Healthcare
+        </p>
         <input type="text" value={itemName} onChange={handleNameChange} placeholder="Item Code" />
+        <input type="text" value={description} onChange={handleDescriptionChange} placeholder="Item Description" />
+        <input type="number" value={price} onChange={handlePriceChange} placeholder="Item Price" />
         <button onClick={handleUpload}>Upload</button>
       </div>
+
       <div>
         <h3>Item Gallery</h3>
         {items.length > 0 ? (
@@ -125,9 +118,10 @@ const ItemManagement = () => {
             ))}
           </div>
         ) : (
-          <p>No Item available.</p>
+          <p>No items available.</p>
         )}
       </div>
+
       {/* Edit Service Form */}
       {editServiceId && (
         <div>
