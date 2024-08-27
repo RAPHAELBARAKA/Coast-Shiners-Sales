@@ -31,6 +31,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
+
 
 // Import UserController
 const UserController = require('./Controller/UserController');
