@@ -28,7 +28,7 @@ function VerifyOTPForm() {
 
     try {
       const enteredOTP = otp.join('');
-      const response = await axios.post("http://localhost:3000/verify-otp", { enteredOTP });
+      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/verify-otp", { enteredOTP });
 
       if (response.status === 200) {
         navigate('/login');
