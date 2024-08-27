@@ -18,14 +18,14 @@ function Login() {
         email,
         password
       });
- 
+
       alert(response.data.message);
   
       if (response.status === 200) {
         if (response.data.isAdmin) {
           navigate('/admin-dashboard');
         } else if (response.data.isDoctor) {
-          navigate('/doctor-dash'); // Assuming doctor dashboard route is '/doctor-dash'
+          navigate('/doctor-dash');
         } else {
           if (rememberMe) {
             localStorage.setItem('rememberedEmail', email);
@@ -38,45 +38,48 @@ function Login() {
         }
       }
     } catch (error) {
-      setErrorMessage('Login failed. Please check your credentials.');
-      console.error('Login Error:', error);
+      if (error.response && error.response.status === 403) {
+        setErrorMessage('Your account is not verified. Please check your email for the verification link.');
+      } else {
+        setErrorMessage('Login failed. Please check your credentials.');
+      }
     }
   };
 
   return (
-      <div className="login-box">
-        <h1 className="login-title">LOGIN</h1>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              className="login-input"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="login-input"
-            />
-          </div>
-          <button type="submit" className="login-button">Login</button>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-        </form>
-        <div className="signup-link">
-          <Link to="/">Don't have an account? Sign Up</Link>
-          <Link to="/forgot-password" className="login-forgot-password">
-              Forgot password?
-            </Link>
+    <div className="login-box">
+      <h1 className="login-title">LOGIN</h1>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+            className="login-input"
+          />
         </div>
+        <div className="form-group">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            required
+            className="login-input"
+          />
+        </div>
+        <button type="submit" className="login-button">Login</button>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+      </form>
+      <div className="signup-link">
+        <Link to="/">Don't have an account? Sign Up</Link>
+        <Link to="/forgot-password" className="login-forgot-password">
+          Forgot password?
+        </Link>
       </div>
+    </div>
   );
 }
 

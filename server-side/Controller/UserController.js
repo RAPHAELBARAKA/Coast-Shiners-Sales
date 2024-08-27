@@ -131,7 +131,6 @@ exports.resendOtp = async (req, res) => {
   }
 }
 
-
 exports.loginUser = async (req, res) => {
   // Controller logic for user login
   const { email, password } = req.body;
@@ -151,6 +150,11 @@ exports.loginUser = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
+      // Check if the user is verified
+      if (!user.isVerified) {
+        return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
+      }
+
       // Check if the user is an admin
       if (user.role === 'admin') {
         req.session.isAdmin = true; // Set isAdmin flag in session
