@@ -10,6 +10,7 @@ import AdminDashboardPage from "../pages/AdminPages/AdminDashboardPage/AdminDash
 import ItemManagementPage from "../pages/AdminPages/ItemManagementPage/ItemManagementPage";
 import OnePopularPage from "../pages/ClientPages/OnePopularPage/OnePopularPage";
 import CartPage from "../pages/ClientPages/CartPage/CartPage";
+import PaymentPage from "../pages/ClientPages/PaymentPage/PaymentPage";
 
 function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ function AppRoutes() {
         <Route path="/item-management" element={< ItemManagementPage />} />
         <Route path="/popular/:popular" element={<OnePopularPage />} />
         <Route path="/cart" element={<CartPage/>} />
+        <Route path="/payment" element={<PaymentPage/>} />
 
 
       </Routes>

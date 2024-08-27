@@ -36,6 +36,7 @@ app.use(session({
 const UserController = require('./Controller/UserController');
 const ItemManagementController = require ('./Controller/ItemManagementController')
 const OrderController = require ("./Controller/OrderController")
+const PaymentController = require ("./Controller/PaymentController")
 // User routes
 app.post("/", UserController.registerUser);
 app.post("/verify-otp", UserController.verifyOtp);
@@ -51,6 +52,8 @@ app.post("/add-item", upload.single('image'),ItemManagementController.addItem);
 app.get("/get-item",ItemManagementController.getItem);
 app.post("/place-order", upload.none(), OrderController.recieveOrder);
 app.get("/api/orders",OrderController.getOrders);
+app.post("/initiate-payment", PaymentController.initiatepayment);
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

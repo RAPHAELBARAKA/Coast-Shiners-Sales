@@ -33,7 +33,6 @@ function Cart() {
         formData.append(`color${index}`, item.color);
         formData.append(`quantity${index}`, item.quantity);
         formData.append(`price${index}`, item.totalPrice);
-
       });
       formData.append('totalAmount', totalAmount);
 
@@ -45,7 +44,10 @@ function Cart() {
       console.log('Order placed successfully');
       localStorage.removeItem('cart');
       setCart([]);
-      navigate('/dashboard');
+
+      // Navigate to Payment page and pass cart details and totalAmount
+      navigate('/payment', { state: { cart, totalAmount } });
+
     } catch (error) {
       console.error('Error placing the order:', error);
     }
