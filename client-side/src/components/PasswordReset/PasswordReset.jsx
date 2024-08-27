@@ -35,7 +35,7 @@ function PasswordReset() {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:3000/resetpassword', {
+      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/resetpassword', {
         email,
         newPassword,
       });

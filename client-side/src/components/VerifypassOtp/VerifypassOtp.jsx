@@ -46,7 +46,7 @@ function VerifypassOtp() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await axios.post("http://localhost:3000/resend-otp", { email });
+      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/resend-otp", { email });
 
       if (response.status === 200) {
         alert(response.data.message);

@@ -23,7 +23,7 @@ function PopularItems() {
       try {
         const fetchItems = async (code) => {
           try {
-            const response = await axios.get(`http://localhost:3000/get-item?code=${code}`);
+            const response = await axios.get(`https://coast-shiners-sales-3.onrender.com/get-item?code=${code}`);
             return response.data[0]; // Get the most recent item
           } catch (error) {
             console.error(`Error fetching items for code ${code}:`, error);
@@ -66,7 +66,7 @@ function PopularItems() {
               className="popular-item-box"
               onClick={() => handleClick(
                 popularMapping[item.code], 
-                `http://localhost:3000/${item.image}`, 
+                `https://coast-shiners-sales-3.onrender.com/${item.image}`, 
                 item.description, 
                 item.price
               )}
@@ -74,7 +74,7 @@ function PopularItems() {
               <h3 className="item-title">{popularMapping[item.code]}</h3>
               <div className="items-row">
                 <div className="item-container">
-                  <img src={`http://localhost:3000/${item.image}`} alt={popularMapping[item.code]} className="item-image" />
+                  <img src={`https://coast-shiners-sales-3.onrender.com/${item.image}`} alt={popularMapping[item.code]} className="item-image" />
                 </div>
               </div>
               <ul className="view">

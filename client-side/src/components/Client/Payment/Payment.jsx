@@ -10,7 +10,7 @@ function Payment() {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const initiatePayment = () => {
-    axios.post('http://localhost:3000/initiate-payment', {
+    axios.post('https://coast-shiners-sales-3.onrender.com/initiate-payment', {
       phoneNumber: phoneNumber,
       amount: totalAmount
     })

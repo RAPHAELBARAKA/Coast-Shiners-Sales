@@ -32,7 +32,7 @@ function RegisterForm() {
 
     try {
       setError('');
-      const response = await axios.post("http://localhost:3000/", {
+      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/", {
         name,
         email,
         phone,

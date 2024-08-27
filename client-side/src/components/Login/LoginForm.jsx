@@ -14,7 +14,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/login', {
+      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/login', {
         email,
         password
       });

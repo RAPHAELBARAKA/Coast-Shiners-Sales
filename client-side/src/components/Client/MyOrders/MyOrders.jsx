@@ -9,7 +9,7 @@ function MyOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/orders'); // Replace with your API endpoint
+        const response = await axios.get('https://coast-shiners-sales-3.onrender.com/api/orders'); // Replace with your API endpoint
         console.log('Orders data:', response.data);
 
         // Check if the data is an array and set it

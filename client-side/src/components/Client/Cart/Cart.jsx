@@ -36,7 +36,7 @@ function Cart() {
       });
       formData.append('totalAmount', totalAmount);
 
-      const response = await axios.post('http://localhost:3000/place-order', formData, {
+      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/place-order', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert(response.data.message);

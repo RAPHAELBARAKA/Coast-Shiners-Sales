@@ -46,7 +46,7 @@ const ItemManagement = () => {
   // Submit edited item
   const handleEditSubmit = async () => {
     try {
-      await axios.put(`http://localhost:3000/edit-service/${editServiceId}`, { code: editServiceName });
+      await axios.put(`https://coast-shiners-sales-3.onrender.com/${editServiceId}`, { code: editServiceName });
       alert('Service updated successfully');
       setEditServiceId('');
       setEditServiceName('');
@@ -64,7 +64,7 @@ const ItemManagement = () => {
     formData.append('price', price);
 
     try {
-      await axios.post('http://localhost:3000/add-item', formData, {
+      await axios.post('https://coast-shiners-sales-3.onrender.com/add-item', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
