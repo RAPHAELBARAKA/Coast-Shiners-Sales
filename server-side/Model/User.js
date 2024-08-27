@@ -7,7 +7,8 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
   .catch((error) => {
     console.error("Failed to connect to MongoDB:", error);
   });
-const newSchema = new mongoose.Schema({
+  
+  const newSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -33,7 +34,13 @@ const newSchema = new mongoose.Schema({
         required: true
     },
     otp: {
-        type: String
+        code: {
+            type: String
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
     },
     passOtp: {
         type: String
@@ -60,5 +67,3 @@ const newSchema = new mongoose.Schema({
 const userdata = mongoose.model("userdata", newSchema);
 
 module.exports = userdata;
-
-

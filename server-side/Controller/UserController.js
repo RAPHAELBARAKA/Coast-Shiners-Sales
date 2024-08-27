@@ -130,6 +130,7 @@ exports.resendOtp = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
+
 exports.loginUser = async (req, res) => {
   // Controller logic for user login
   const { email, password } = req.body;
@@ -154,8 +155,8 @@ exports.loginUser = async (req, res) => {
         return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
       }
 
-      // Check if the user has verified their OTP (if OTP is used)
-      if (user.otp && user.otp.isVerified === false) {
+      // Check if the OTP is verified if OTP is used
+      if (user.otp && user.otp.code && user.otp.isVerified === false) {
         return res.status(403).json({ message: 'Your OTP is not verified. Please verify your OTP to log in.' });
       }
 
@@ -164,7 +165,6 @@ exports.loginUser = async (req, res) => {
         req.session.isAdmin = true; // Set isAdmin flag in session
         return res.status(200).json({ message: 'Admin login successful', isAdmin: true });
       } else if (user.role === 'doctor') {
-        // Assuming doctor role is 'doctor'
         return res.status(200).json({ message: 'Doctor login successful', isDoctor: true });
       } else {
         // Update the user's loginRecords with the current login time
@@ -181,7 +181,6 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: 'An error occurred during login' });
   }
 };
-
 
 
 exports.sendPasswordOTP = async (req, res) => {
