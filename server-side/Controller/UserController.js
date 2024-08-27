@@ -1,5 +1,5 @@
 // UserController.js
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const userdata = require("../Model/User");
 const randomstring = require('randomstring');
 const nodemailer = require('nodemailer'); // Import nodemailer
