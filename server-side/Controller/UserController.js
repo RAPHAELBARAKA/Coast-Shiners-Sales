@@ -130,7 +130,6 @@ exports.resendOtp = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
-
 exports.loginUser = async (req, res) => {
   // Controller logic for user login
   const { email, password } = req.body;
@@ -153,6 +152,11 @@ exports.loginUser = async (req, res) => {
       // Check if the user is verified
       if (!user.isVerified) {
         return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
+      }
+
+      // Check if the user has verified their OTP (if OTP is used)
+      if (user.otp && user.otp.isVerified === false) {
+        return res.status(403).json({ message: 'Your OTP is not verified. Please verify your OTP to log in.' });
       }
 
       // Check if the user is an admin
