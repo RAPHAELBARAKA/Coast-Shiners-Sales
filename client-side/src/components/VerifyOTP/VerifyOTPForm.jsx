@@ -22,23 +22,18 @@ function VerifyOTPForm() {
     }
   };
 
-  const axiosInstance = axios.create({
-    baseURL: 'https://coast-shiners-sales-3.onrender.com',
-    withCredentials: true, // This is crucial for sending cookies and handling sessions
-  });
-
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     setVerifyLoading(true);
 
     try {
       const enteredOTP = otp.join('');
-      const response = await axiosInstance.post("/verify-otp", { enteredOTP });
+      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/verify-otp", { enteredOTP });
 
       if (response.status === 200) {
         navigate('/login');
       } else {
-        alert(response.data.message || 'Failed to verify OTP. Please try again later.');
+        alert(response.data.message);
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -51,10 +46,10 @@ function VerifyOTPForm() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await axiosInstance.post("/resend-otp", { email });
+      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/resend-otp", { email });
 
       if (response.status === 200) {
-        alert(response.data.message || 'OTP has been resent.');
+        alert(response.data.message);
       } else {
         alert("Failed to resend OTP. Please try again later.");
       }
@@ -84,11 +79,11 @@ function VerifyOTPForm() {
               onChange={(e) => handleInputChange(index, e.target.value)}
               id={`otp-${index}`}
               className="otp-input"
-              aria-label={`OTP digit ${index + 1}`}
             />
           ))}
         </div>
 
+        {/* Button container using flexbox to align both buttons */}
         <div className="button-container">
           <button type="submit" className="verify-btn" disabled={verifyLoading}>
             {verifyLoading ? 'Verifying...' : 'Verify OTP'}
