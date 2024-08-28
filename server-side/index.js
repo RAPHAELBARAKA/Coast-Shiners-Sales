@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware setup
 app.use(cors({
-  origin: 'https://your-frontend-domain.com',  // Replace with your frontend domain
+  origin: 'https://coast-shiners-sales-7.onrender.com',  
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
@@ -23,9 +23,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: true, // Ensure this is true if using HTTPS
+    secure: true, // Set to false during development, true in production with HTTPS
     httpOnly: true,
-    sameSite: 'none', // Ensures the cookie is sent across domains
+    sameSite: 'none', // Set this as required
   }
 }));
 
@@ -52,14 +52,14 @@ const OrderController = require('./Controller/OrderController');
 const PaymentController = require('./Controller/PaymentController');
 
 // User routes
-app.post("/", UserController.registerUser);
+app.post("/register", UserController.registerUser);
 app.post("/verify-otp", UserController.verifyOtp);
 app.post("/resend-otp", UserController.resendOtp);
 app.post("/login", UserController.loginUser);
 app.post("/password-otp", UserController.sendPasswordOTP);
-app.post("/verifypassword-otp", UserController.verifyPasswordOTP);
-app.post("/resendpass-otp", UserController.resendPasswordOTP);
-app.post("/resetpassword", UserController.resetPassword);
+app.post("/verify-password-otp", UserController.verifyPasswordOTP);
+app.post("/resend-password-otp", UserController.resendPasswordOTP);
+app.post("/reset-password", UserController.resetPassword);
 
 // Admin routes
 app.post("/add-item", upload.single('image'), ItemManagementController.addItem);
