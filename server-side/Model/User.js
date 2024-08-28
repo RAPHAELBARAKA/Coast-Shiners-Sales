@@ -34,13 +34,7 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
         required: true
     },
     otp: {
-        code: {
             type: String
-        },
-        isVerified: {
-            type: Boolean,
-            default: false
-        }
     },
     passOtp: {
         type: String

@@ -23,7 +23,8 @@ exports.registerUser = async (req, res) => {
       id,
       role,
       password: hashedPassword,
-      confirm
+      confirm,
+      isVerified : false
     });
 
     await newUser.save();
@@ -70,6 +71,10 @@ exports.verifyOtp = async (req, res) => {
 
   try {
     const user = await userdata.findOne({ otp: enteredOTP });
+
+    if (enteredOTP == null ) {
+      return res.status(400).json({ message: 'OTP Required' });
+    }
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid OTP' });
@@ -142,26 +147,21 @@ exports.loginUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     
-    console.log('User isVerified status:', user.isVerified);
+    // console.log('User isVerified status:', user.isVerified);
 
     // Ensure that 'user.password' exists before comparing
     if (!user.password) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Pease provide a password' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (passwordMatch) {
-      // Check if the user is verified
+    // Check if the user is verified
       if (!user.isVerified) {
         return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
       }
 
-      // Check if the OTP is verified if OTP is used
-      if (user.otp && user.otp.code && user.otp.isVerified === false) {
-        return res.status(403).json({ message: 'Your OTP is not verified. Please verify your OTP to log in.' });
-      }
-
+    if (passwordMatch) {
       // Check if the user is an admin
       if (user.role === 'admin') {
         req.session.isAdmin = true; // Set isAdmin flag in session

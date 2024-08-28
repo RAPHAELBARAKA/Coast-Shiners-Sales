@@ -52,7 +52,7 @@ const OrderController = require('./Controller/OrderController');
 const PaymentController = require('./Controller/PaymentController');
 
 // User routes
-app.post("/", UserController.registerUser);
+app.post("/register", UserController.registerUser);
 app.post("/verify-otp", UserController.verifyOtp);
 app.post("/resend-otp", UserController.resendOtp);
 app.post("/login", UserController.loginUser);
