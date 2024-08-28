@@ -22,50 +22,49 @@ function VerifyOTPForm() {
     }
   };
 
- const axiosInstance = axios.create({
-  baseURL: 'https://coast-shiners-sales-3.onrender.com',
-  withCredentials: true, // This is crucial for sending cookies and handling sessions
-});
+  const axiosInstance = axios.create({
+    baseURL: 'https://coast-shiners-sales-3.onrender.com',
+    withCredentials: true, // This is crucial for sending cookies and handling sessions
+  });
 
-// Example of using the Axios instance
-const handleVerifyOTP = async (e) => {
-  e.preventDefault();
-  setVerifyLoading(true);
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setVerifyLoading(true);
 
-  try {
-    const enteredOTP = otp.join('');
-    const response = await axiosInstance.post("/verify-otp", { enteredOTP });
+    try {
+      const enteredOTP = otp.join('');
+      const response = await axiosInstance.post("/verify-otp", { enteredOTP });
 
-    if (response.status === 200) {
-      navigate('/login');
-    } else {
-      alert(response.data.message);
+      if (response.status === 200) {
+        navigate('/login');
+      } else {
+        alert(response.data.message || 'Failed to verify OTP. Please try again later.');
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      alert("An error occurred during OTP verification. Please try again later.");
     }
-  } catch (error) {
-    console.error("Error verifying OTP:", error);
-    alert("An error occurred during OTP verification. Please try again later.");
-  }
 
-  setVerifyLoading(false);
-};
+    setVerifyLoading(false);
+  };
 
-const handleResendOTP = async () => {
-  try {
-    setResendLoading(true);
-    const response = await axiosInstance.post("/resend-otp", { email });
+  const handleResendOTP = async () => {
+    try {
+      setResendLoading(true);
+      const response = await axiosInstance.post("/resend-otp", { email });
 
-    if (response.status === 200) {
-      alert(response.data.message);
-    } else {
-      alert("Failed to resend OTP. Please try again later.");
+      if (response.status === 200) {
+        alert(response.data.message || 'OTP has been resent.');
+      } else {
+        alert("Failed to resend OTP. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      alert("An error occurred while resending OTP. Please try again later.");
     }
-  } catch (error) {
-    console.error("Error resending OTP:", error);
-    alert("An error occurred while resending OTP. Please try again later.");
-  }
 
-  setResendLoading(false);
-};
+    setResendLoading(false);
+  };
 
   return (
     <div className="form-container">
@@ -85,11 +84,11 @@ const handleResendOTP = async () => {
               onChange={(e) => handleInputChange(index, e.target.value)}
               id={`otp-${index}`}
               className="otp-input"
+              aria-label={`OTP digit ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Button container using flexbox to align both buttons */}
         <div className="button-container">
           <button type="submit" className="verify-btn" disabled={verifyLoading}>
             {verifyLoading ? 'Verifying...' : 'Verify OTP'}
