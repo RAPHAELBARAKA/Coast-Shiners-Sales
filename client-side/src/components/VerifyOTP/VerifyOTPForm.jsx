@@ -22,44 +22,50 @@ function VerifyOTPForm() {
     }
   };
 
-  const handleVerifyOTP = async (e) => {
-    e.preventDefault();
-    setVerifyLoading(true);
+ const axiosInstance = axios.create({
+  baseURL: 'https://coast-shiners-sales-3.onrender.com',
+  withCredentials: true, // This is crucial for sending cookies and handling sessions
+});
 
-    try {
-      const enteredOTP = otp.join('');
-      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/verify-otp", { enteredOTP });
+// Example of using the Axios instance
+const handleVerifyOTP = async (e) => {
+  e.preventDefault();
+  setVerifyLoading(true);
 
-      if (response.status === 200) {
-        navigate('/login');
-      } else {
-        alert(response.data.message);
-      }
-    } catch (error) {
-      console.error("Error verifying OTP:", error);
-      alert("An error occurred during OTP verification. Please try again later.");
+  try {
+    const enteredOTP = otp.join('');
+    const response = await axiosInstance.post("/verify-otp", { enteredOTP });
+
+    if (response.status === 200) {
+      navigate('/login');
+    } else {
+      alert(response.data.message);
     }
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    alert("An error occurred during OTP verification. Please try again later.");
+  }
 
-    setVerifyLoading(false);
-  };
+  setVerifyLoading(false);
+};
 
-  const handleResendOTP = async () => {
-    try {
-      setResendLoading(true);
-      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/resend-otp", { email });
+const handleResendOTP = async () => {
+  try {
+    setResendLoading(true);
+    const response = await axiosInstance.post("/resend-otp", { email });
 
-      if (response.status === 200) {
-        alert(response.data.message);
-      } else {
-        alert("Failed to resend OTP. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Error resending OTP:", error);
-      alert("An error occurred while resending OTP. Please try again later.");
+    if (response.status === 200) {
+      alert(response.data.message);
+    } else {
+      alert("Failed to resend OTP. Please try again later.");
     }
+  } catch (error) {
+    console.error("Error resending OTP:", error);
+    alert("An error occurred while resending OTP. Please try again later.");
+  }
 
-    setResendLoading(false);
-  };
+  setResendLoading(false);
+};
 
   return (
     <div className="form-container">
