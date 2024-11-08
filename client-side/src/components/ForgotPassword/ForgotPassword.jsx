@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import api from "../../api/api.jsx"
 import './ForgotPassword.css'; // Import custom CSS for styling
 
 function ForgotPassword() {
@@ -12,7 +12,7 @@ function ForgotPassword() {
     e.preventDefault();
     setLoading(true); 
     try {
-      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/password-otp', {
+      const response = await api.post('/password-otp', {
         email
       });
   

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
+import api from "../../../api/api.jsx";
 
 function Cart() {
   const [cart, setCart] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState(''); // Changed from name to userName
+  const [phone, setPhone] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,6 +17,12 @@ function Cart() {
     setCart(storedCart);
     const total = storedCart.reduce((sum, item) => sum + item.totalPrice, 0);
     setTotalAmount(total);
+    const storedEmail = localStorage.getItem('email') || '';
+    setEmail(storedEmail);
+    const storedUserName = localStorage.getItem('userName') || ''; // Changed from storedName to storedUserName
+    setUserName(storedUserName);
+    const storedPhone = localStorage.getItem('phone') || '';
+    setPhone(storedPhone);
   }, []);
 
   const removeItem = (index) => {
@@ -35,8 +45,16 @@ function Cart() {
         formData.append(`price${index}`, item.totalPrice);
       });
       formData.append('totalAmount', totalAmount);
+      formData.append('email', email);
+      formData.append('userName', userName); // Updated to userName
+      formData.append('phone', phone);
 
-      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/place-order', formData, {
+      // Log form data for debugging
+      for (let pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+      }
+
+      const response = await api.post('/place-order', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert(response.data.message);

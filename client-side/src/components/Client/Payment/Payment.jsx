@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from "../../../api/api.jsx"
 import './Payment.css'; // Assuming you have a separate CSS file for styling
 
 function Payment() {
@@ -10,7 +10,7 @@ function Payment() {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const initiatePayment = () => {
-    axios.post('https://coast-shiners-sales-3.onrender.com/initiate-payment', {
+    api.post('/initiate-payment', {
       phoneNumber: phoneNumber,
       amount: totalAmount
     })

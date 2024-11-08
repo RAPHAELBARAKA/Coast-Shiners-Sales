@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api.jsx"
 import { useLocation, useNavigate } from 'react-router-dom';
 import './VerifyOTPForm.css'; // Import the CSS file for styles
 
@@ -28,10 +28,10 @@ function VerifyOTPForm() {
 
     try {
       const enteredOTP = otp.join('');
-      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/verify-otp", { enteredOTP });
+      const response = await api.post("/verify-otp", { enteredOTP });
 
       if (response.status === 200) {
-        navigate('/login');
+        navigate('/');
       } else {
         alert(response.data.message);
       }
@@ -46,7 +46,7 @@ function VerifyOTPForm() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/resend-otp", { email });
+      const response = await api.post("/resend-otp", { email });
 
       if (response.status === 200) {
         alert(response.data.message);

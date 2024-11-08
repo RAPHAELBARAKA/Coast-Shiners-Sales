@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../../api/api.jsx";
 import './PopularItems.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
 import arrow from '../../../assets/arrow.png';
@@ -23,7 +23,8 @@ function PopularItems() {
       try {
         const fetchItems = async (code) => {
           try {
-            const response = await axios.get(`https://coast-shiners-sales-3.onrender.com/get-item?code=${code}`);
+            const response = await api.get(`/get-item?code=${code}`);
+            console.log(`Fetched item for code ${code}:`, response.data[0]); // Log the fetched item
             return response.data[0]; // Get the most recent item
           } catch (error) {
             console.error(`Error fetching items for code ${code}:`, error);
@@ -48,11 +49,9 @@ function PopularItems() {
     fetchPopularItems();
   }, []);
 
-  const handleClick = (popular, image, description, price) => {
-    // Carry all necessary data (image, description, and price) without displaying them
+  const handleClick = (popular, image, description, price, name) => {
     console.log(`Selected item details: ${popular}, ${image}, ${description}, ${price}`);
-    // Navigate to the next page with the image, description, and price in state
-    navigate(`/popular/${popular}`, { state: { image, description, price } });
+    navigate(`/popular/${popular}`, { state: { image, name, description, price } });
   };
 
   return (
@@ -61,32 +60,39 @@ function PopularItems() {
       <div className="popular-items-grid">
         {popularItems.length > 0 ? (
           popularItems.map((item, index) => (
-            <div
-              key={index}
-              className="popular-item-box"
-              onClick={() => handleClick(
-                popularMapping[item.code], 
-                `https://coast-shiners-sales-3.onrender.com/${item.image}`, 
-                item.description, 
-                item.price
-              )}
-            >
-              <h3 className="item-title">{popularMapping[item.code]}</h3>
-              <div className="items-row">
-                <div className="item-container">
-                  <img src={`https://coast-shiners-sales-3.onrender.com/${item.image}`} alt={popularMapping[item.code]} className="item-image" />
+            item && item.code ? (
+              <div
+                key={index}
+                className="popular-item-box"
+                onClick={() => handleClick(
+                  popularMapping[item.code], 
+                  `http://localhost:3000/${item.image}`, 
+                  item.description, 
+                  item.price,
+                  item.name
+                )}
+              >
+                <h3 className="item-title">{popularMapping[item.code]}</h3>
+                <h4 className="item-name">{item.name}</h4>
+                <div className="items-row">
+                  <div className="item-container">
+                    <img src={`http://localhost:3000/${item.image}`} alt={popularMapping[item.code]} className="item-image" />
+                  </div>
                 </div>
+                <ul className="view">
+                  <p>View</p>
+                  <img src={arrow} alt="arrow" />
+                </ul>
               </div>
-              <ul className="view">
-                <p>view</p>
-                <img src={arrow} alt="arrow" />
-              </ul>
-            </div>
+            ) : (
+              <p key={index}>Item not available or missing code</p>
+            )
           ))
         ) : (
           <p>No popular items available</p>
         )}
       </div>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 }

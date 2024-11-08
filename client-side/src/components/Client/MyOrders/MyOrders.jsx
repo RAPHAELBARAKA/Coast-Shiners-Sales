@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../../api/api.jsx";
 import './MyOrders.css'; // Import CSS for styling
 
 function MyOrders() {
@@ -9,24 +9,33 @@ function MyOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('https://coast-shiners-sales-3.onrender.com/api/orders'); // Replace with your API endpoint
+        // Get email from local storage
+        const storedEmail = localStorage.getItem('email') || '';
+
+        console.log('Stored Email:', storedEmail); // Debugging line
+
+        // Fetch orders based on email
+        if (!storedEmail) {
+          console.error('Email is not available in local storage');
+          return;
+        }
+
+        const response = await api.get('/api/orders', { params: { email: storedEmail } });
         console.log('Orders data:', response.data);
 
-        // Check if the data is an array and set it
         if (Array.isArray(response.data)) {
-          // Sort the orders by date (most recent first)
           const sortedOrders = response.data.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
           setOrders(sortedOrders);
         } else {
           console.error('Expected an array but got:', typeof response.data);
         }
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error('Error fetching orders:', error.response ? error.response.data : error.message);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const toggleShowAll = () => {
     setShowAll(!showAll); // Toggle the visibility of the full list

@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 function AdminDashboard() {
   const navigate = useNavigate();
 
-  const handleNavigateToBookings = () => {
-    navigate('/admin-bookings'); // Replace '/bookings' with the actual path to your bookings page
+  const handleNavigateToOrders = () => {
+    navigate('/admin-orders'); // Replace '/bookings' with the actual path to your bookings page
   };
   const handleNavigateToRegistration = () => {
     navigate('/register-user'); // Replace '/bookings' with the actual path to your bookings page
@@ -26,7 +26,7 @@ function AdminDashboard() {
         <li>View appointments</li>
         <li>Generate reports</li>
       </ul>
-      <button onClick={handleNavigateToBookings}>Go to Bookings</button><br/><br/>
+      <button onClick={handleNavigateToOrders}>Go to orders</button><br/><br/>
       <button onClick={handleNavigateToRegistration }>Register a User</button><br/><br/>
       <button onClick={handleNavigateToItemManagement }>Item-management</button><br/><br/>
       <button onClick={handleNavigateToServicePayment }>Service payment</button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api.jsx"
 import { Link, useNavigate } from 'react-router-dom';
 import './RegisterForm.css'; 
 
@@ -32,7 +32,7 @@ function RegisterForm() {
 
     try {
       setError('');
-      const response = await axios.post("https://coast-shiners-sales-3.onrender.com/", {
+      const response = await api.post("/", {
         name,
         email,
         phone,
@@ -44,6 +44,13 @@ function RegisterForm() {
       if (response.data === "exist") {
         setError("User already exists");
       } else if (response.data.message === "User registered. Check your email for OTP.") {
+
+        localStorage.setItem('userName', name);
+        localStorage.setItem('email', email);
+        localStorage.setItem('phone', phone);
+
+
+
         navigate("/verify-otp", { state: { email } });
       } else {
         setError(response.data.message);
@@ -134,7 +141,7 @@ function RegisterForm() {
         </form>
 
         <p className="login-link">
-          Already Registered? <Link className='link' to='/login'>Login</Link>
+          Already Registered? <Link className='link' to='/'>Login</Link>
         </p>
       </div>
   );

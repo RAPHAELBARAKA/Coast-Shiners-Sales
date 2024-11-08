@@ -54,9 +54,16 @@ app.post("/resetpassword", UserController.resetPassword);
 //Admin routes
 app.post("/add-item", upload.single('image'),ItemManagementController.addItem);
 app.get("/get-item",ItemManagementController.getItem);
-app.post("/place-order", upload.none(), OrderController.recieveOrder);
+app.get("/all/orders",OrderController.getAllOrders);
+
+
+app.post("/place-order", OrderController.receiveOrder);
 app.get("/api/orders",OrderController.getOrders);
 app.post("/initiate-payment", PaymentController.initiatepayment);
+app.get("/get-all-items",ItemManagementController.getAllItems);
+app.put('/orders/:orderId/approve',OrderController.approveOrder);
+app.put('/orders/:orderId/cancel', OrderController.cancelOrder);
+app.delete('/orders/:orderId/delete', OrderController.deleteOrder);
 
 
 // Start the server

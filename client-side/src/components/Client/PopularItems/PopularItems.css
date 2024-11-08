@@ -26,6 +26,9 @@
 .item-title {
   cursor: default;
 }
+.item-name{
+  cursor: default;
+}
 
 /* When the box is hovered */
 .popular-item-box:hover {

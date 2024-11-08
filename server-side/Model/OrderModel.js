@@ -8,9 +8,8 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
     console.error("Failed to connect to MongoDB:", error);
   });
 
-    
 const orderSchema = new mongoose.Schema({
-  orderNumber: { type: String, required: true, unique: true }, // Add orderNumber field
+  orderNumber: { type: String, required: true, unique: true },
   items: [
     {
       description: String,
@@ -21,8 +20,11 @@ const orderSchema = new mongoose.Schema({
     }
   ],
   totalAmount: Number,
-  orderDate: { type: Date, default: Date.now }, // Change to Date type
-  // Additional fields as needed
+  email: String,
+  name: String,
+  phone: String,
+  orderDate: { type: Date, default: Date.now },
+  status: { type: String, default: 'Pending' } // Add status field with default value
 });
 
 const Orders = mongoose.model('Orders', orderSchema);

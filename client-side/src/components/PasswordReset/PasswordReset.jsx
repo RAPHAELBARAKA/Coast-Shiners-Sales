@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api.jsx"
 import { useNavigate } from 'react-router-dom';
 import './PasswordReset.css'; // Import the custom CSS file
 
@@ -35,13 +35,13 @@ function PasswordReset() {
 
     try {
       setLoading(true);
-      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/resetpassword', {
+      const response = await api.post('/resetpassword', {
         email,
         newPassword,
       });
 
       setSuccessMessage(response.data.message);
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.error('Error resetting password:', error.response.data);
       setError(error.response.data.message || 'An error occurred while resetting password.');

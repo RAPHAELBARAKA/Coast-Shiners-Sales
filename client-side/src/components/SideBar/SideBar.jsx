@@ -52,7 +52,7 @@ const SideBar = ({ onToggleSidebar, isCollapsed }) => {
             {!isCollapsed && <p>Healthcare and Beauty</p>}
           </li>
         </ul>
-		<li className="logout" onClick={() => navigate('/logout')}>
+		<li className="logout" onClick={() => navigate('/')}>
             <img src={logoutIcon} alt="Logout" width={20} height={20} />
             {!isCollapsed && <p>Logout</p>}
           </li>

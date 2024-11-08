@@ -56,7 +56,7 @@ exports.registerUser = async (req, res) => {
       return res.status(500).json({ message: 'Internal Server Error' });
     } else {
       console.log('Email sent: ' + info.response);
-      return res.json({ message: 'User registered. Check your email for OTP.' });
+      return res.json({ message: 'User registered. Check your email for OTP.', name: newUser.name, email: newUser.email});
     }
   });
 } catch (error) {
@@ -135,9 +135,7 @@ exports.resendOtp = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
-
 exports.loginUser = async (req, res) => {
-  // Controller logic for user login
   const { email, password } = req.body;
 
   try {
@@ -146,35 +144,33 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
-    // console.log('User isVerified status:', user.isVerified);
 
-    // Ensure that 'user.password' exists before comparing
     if (!user.password) {
-      return res.status(401).json({ message: 'Pease provide a password' });
+      return res.status(401).json({ message: 'Please provide a password' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
-    // Check if the user is verified
-      if (!user.isVerified) {
-        return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
-      }
+    if (!user.isVerified) {
+      return res.status(403).json({ message: 'Your account is not verified. Please check your email for the verification link.' });
+    }
 
     if (passwordMatch) {
-      // Check if the user is an admin
-      if (user.role === 'admin') {
-        req.session.isAdmin = true; // Set isAdmin flag in session
-        return res.status(200).json({ message: 'Admin login successful', isAdmin: true });
-      } else if (user.role === 'doctor') {
-        return res.status(200).json({ message: 'Doctor login successful', isDoctor: true });
-      } else {
-        // Update the user's loginRecords with the current login time
-        user.loginRecords.push({ loginTime: new Date() });
-        await user.save();
+      const currentLoginTime = new Date();
+      const previousLastLogin = user.lastLogin || currentLoginTime;
 
-        return res.status(200).json({ message: 'Login successful', isAdmin: false, isDoctor: false });
-      }
+      user.loginRecords.push({ loginTime: previousLastLogin });
+      user.lastLogin = currentLoginTime;
+      await user.save();
+
+      const response = {
+        message: 'Login successful',
+        isAdmin: user.role === 'admin',
+        isDoctor: user.role === 'doctor',
+        lastLogin: previousLastLogin, // Include the last login time in the response
+      };
+
+      return res.status(200).json(response);
     } else {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
@@ -183,7 +179,6 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: 'An error occurred during login' });
   }
 };
-
 
 exports.sendPasswordOTP = async (req, res) => {
   // Controller logic for sending password OTP

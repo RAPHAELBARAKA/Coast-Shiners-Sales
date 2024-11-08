@@ -9,6 +9,7 @@ const consumerSecret = 'VNJJPBtTUeWFxW2jbXG0s73refFs2exohXyvQL8zAtPM9xNRyKnEZSey
 const consumerKey = 'OvzT0CDDckDJvrRNc99fGXfz1PGhjwTC1muG6WgDvbN3Xpg1';
 const shortcode = '174379';
 const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+
 exports.initiatepayment = async (req, res) => {
   try {
     const { phoneNumber, amount } = req.body;

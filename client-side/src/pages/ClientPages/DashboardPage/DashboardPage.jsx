@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Sidebar from "../../../components/SideBar/SideBar"; // Sidebar component
 import TopNav from '../../../components/Client/TopNav/TopNav'; // TopNav component
 import './DashboardPage.css'; // Import the CSS file
@@ -7,10 +7,25 @@ import MyOrders from '../../../components/Client/MyOrders/MyOrders';
 
 const DashboardPage = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [lastLogin, setLastLogin] = useState('');
+
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(prevState => !prevState);
   };
+  useEffect(() => {
+    // Retrieve the user's name from localStorage
+    const storedName = localStorage.getItem('userName');
+    const storedLastLogin = localStorage.getItem('lastLogin');
+
+    if (storedLastLogin) setLastLogin(storedLastLogin);
+
+    if (storedName) {
+      setUserName(storedName);
+    }
+  }, []);
+
 
   return (
     <div className={`dashboard-grid ${isSidebarCollapsed ? 'collapsed' : ''}`}>
@@ -31,11 +46,11 @@ const DashboardPage = () => {
           <div className="greetings">
           <div className="welcome">
             {/* Your greetings content */}
-          Welcome! Raphael Baraka         
-           </div>
+            Welcome, {userName}!        
+            </div>
           <div className="login">
             {/* Your greetings content */}
-          Last Login 10:00am      
+          Last Login: {lastLogin}    
            </div>      
            </div>
           

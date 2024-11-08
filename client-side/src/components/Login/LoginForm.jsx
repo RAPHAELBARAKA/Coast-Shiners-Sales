@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginForm.css'; // Custom CSS file
+import api from "../../api/api.jsx"
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -14,17 +14,18 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://coast-shiners-sales-3.onrender.com/login', {
-        email,
-        password
-      });
+      const response = await api.post('/login', { email, password });
 
-      alert(response.data.message);
-  
       if (response.status === 200) {
-        if (response.data.isAdmin) {
+        const { isAdmin, isDoctor, lastLogin } = response.data;
+
+        if (lastLogin) {
+          localStorage.setItem('lastLogin', new Date(lastLogin).toLocaleString());
+        }
+
+        if (isAdmin) {
           navigate('/admin-dashboard');
-        } else if (response.data.isDoctor) {
+        } else if (isDoctor) {
           navigate('/doctor-dash');
         } else {
           if (rememberMe) {
@@ -45,7 +46,6 @@ function Login() {
       }
     }
   };
-
   return (
     <div className="login-box">
       <h1 className="login-title">LOGIN</h1>
@@ -74,7 +74,7 @@ function Login() {
         {errorMessage && <div className="error-message">{errorMessage}</div>}
       </form>
       <div className="signup-link">
-        <Link to="/">Don't have an account? Sign Up</Link>
+        <Link to="/register">Don't have an account? Sign Up</Link>
         <Link to="/forgot-password" className="login-forgot-password">
           Forgot password?
         </Link>
