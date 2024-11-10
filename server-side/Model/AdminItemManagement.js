@@ -7,17 +7,7 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
   .catch((error) => {
     console.error("Failed to connect to MongoDB:", error);
   });
-  
-const orderSchema = new mongoose.Schema({
-  orderNumber: String,
-  orderedQuantity: Number,
-  totalAmount: Number,
-  email: String,
-  name: String,
-  phone: String,
-  orderDate: { type: Date, default: Date.now },
-  status: { type: String, default: 'Pending' }
-});
+
 
 const itemSchema = new mongoose.Schema({
   code: { type: String, required: true },
@@ -26,9 +16,10 @@ const itemSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   quantity: { type: Number, required: true, default: 0 },
   image: { type: String, required: true },
+  isVisible: { type: Boolean, default: true },  // New field to control visibility
   createdAt: { type: Date, default: Date.now },
-  orders: [orderSchema]
-}, { timestamps: true });
+},
+ { timestamps: true });
 
 const Item = mongoose.model('Item', itemSchema);
 

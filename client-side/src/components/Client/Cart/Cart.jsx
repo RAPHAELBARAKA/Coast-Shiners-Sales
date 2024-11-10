@@ -35,89 +35,92 @@ function Cart() {
 
   const handlePlaceOrder = async () => {
     console.log('Place Order button clicked');
+
+    // Check if the cart is empty
+    if (cart.length === 0) {
+      alert('Your cart is empty. Please add items to the cart.');
+      return;
+    }
+
+    // Check if required user details are provided
+    if (!email || !userName || !phone) {
+      alert('Please provide your email, username, and phone number.');
+      return;
+    }
+
     try {
-      const formData = new FormData();
-      cart.forEach((item, index) => {
-        formData.append(`description${index}`, item.description);
-        formData.append(`size${index}`, item.size);
-        formData.append(`color${index}`, item.color);
-        formData.append(`quantity${index}`, item.quantity);
-        formData.append(`price${index}`, item.totalPrice);
+      const orderData = {
+        itemCount: cart.length,
+        totalAmount: totalAmount,
+        email: email,
+        userName: userName,
+        phone: phone,
+        items: cart.map((item) => ({
+          description: item.description,
+          size: item.size,
+          color: item.color,
+          quantity: item.quantity,
+          price: item.totalPrice
+        }))
+      };
+
+      // Logging the order data to inspect it before sending
+      console.log('Order Data:', orderData);
+
+      const response = await api.post('place-order', orderData, {
+        headers: { 'Content-Type': 'application/json' },  // Change Content-Type to application/json
       });
-      formData.append('totalAmount', totalAmount);
-      formData.append('email', email);
-      formData.append('userName', userName); // Updated to userName
-      formData.append('phone', phone);
 
-      // Log form data for debugging
-      for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-      }
-
-      const response = await api.post('/place-order', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      alert(response.data.message);
-
-      console.log('Order placed successfully');
-      localStorage.removeItem('cart');
+      console.log(response.data);
+      alert('Order placed successfully');
       setCart([]);
-
-      // Navigate to Payment page and pass cart details and totalAmount
-      navigate('/payment', { state: { cart, totalAmount } });
-
+      localStorage.removeItem('cart');
+      navigate('/payment', { state: { totalAmount, cart } });  // Navigate to payment page after placing order
     } catch (error) {
-      console.error('Error placing the order:', error);
+      console.error('Error placing order:', error);
+      alert('Error placing order');
     }
   };
 
   return (
     <div className="cart-container">
-      <h2>Cart</h2>
-      {cart.length > 0 ? (
-        <div>
-          <table className="cart-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Size</th>
-                <th>Color</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Action</th>
+      <h2>Your Cart</h2>
+      <table className="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cart.length === 0 ? (
+            <tr>
+              <td colSpan="6" style={{ textAlign: 'center' }}>
+                Your cart is empty. Please add items to the cart.
+              </td>
+            </tr>
+          ) : (
+            cart.map((item, index) => (
+              <tr key={index}>
+                <td>{item.description}</td>
+                <td>{item.size}</td>
+                <td>{item.color}</td>
+                <td>{item.quantity}</td>
+                <td>{item.totalPrice}</td>
+                <td><button onClick={() => removeItem(index)}>Remove</button></td>
               </tr>
-            </thead>
-            <tbody>
-              {cart.map((item, index) => (
-                <tr key={index}>
-                  <td>
-                    {item.image ? (
-                      <img src={item.image} alt={item.description} className="cart-image" />
-                    ) : (
-                      'No Image'
-                    )}
-                  </td>
-                  <td className='description'>{item.description}</td>
-                  <td>{item.size}</td>
-                  <td>{item.color}</td>
-                  <td>{item.quantity}</td>
-                  <td>Ksh:{item.totalPrice}</td>
-                  <td>
-                    <button onClick={() => removeItem(index)} className="remove-button">Remove</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="cart-total">
-            <h3>Total Amount: Ksh:{totalAmount}</h3>
-            <button onClick={handlePlaceOrder} className="place-order-button">Place Order</button>
-          </div>
-        </div>
-      ) : (
-        <p>Your cart is empty.</p>
-      )}
+            ))
+          )}
+        </tbody>
+      </table>
+      <div className="total-container">
+        <p>Total Amount: {totalAmount}</p>
+        <button onClick={handlePlaceOrder}>Place Order</button>
+      </div>
     </div>
   );
 }

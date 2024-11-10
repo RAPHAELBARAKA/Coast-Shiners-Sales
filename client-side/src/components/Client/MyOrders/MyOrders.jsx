@@ -68,7 +68,11 @@ function MyOrders() {
                     </div>
                   ))}
                 </td>
-                <td>{order.items.reduce((total, item) => total + item.quantity, 0)}</td>
+                <td>{order.items.map((item, index) => (
+                    <div key={index} className="item-description">
+                      {item.quantity}
+                    </div>
+                  ))}</td>
                 <td>{order.status}</td>
               </tr>
             ))

@@ -30,7 +30,7 @@ exports.addItem = async (req, res) => {
 exports.getItem = async (req, res) => {
   try {
     const code = req.query.code;
-    const filter = code ? { code } : {};
+    const filter = code ? { code, isVisible: true } : { isVisible: true };  // Add visibility filter here
 
     const recentItems = await Item.find(filter)
       .sort({ createdAt: -1 })
@@ -46,13 +46,16 @@ exports.getItem = async (req, res) => {
 exports.getAllItems = async (req, res) => {
   try {
     const code = req.query.code;
-    // Fetch all items with the specified code and sort by creation time
-    const items = code ? await Item.find({ code }).sort({ createdAt: -1 }) : [];
     
+    // Fetch all items that are visible and optionally filter by code
+    const filter = code ? { code, isVisible: true } : { isVisible: true };
+    const items = await Item.find(filter).sort({ createdAt: -1 });
+
     res.status(200).json(items);
   } catch (error) {
     console.error('Error fetching items:', error);
     res.status(500).json({ message: 'Failed to fetch items' });
   }
 };
+
 

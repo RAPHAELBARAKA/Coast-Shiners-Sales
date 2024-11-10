@@ -59,8 +59,10 @@ function PopularItems() {
       <h2 className="popular-items-heading">Popular Items</h2>
       <div className="popular-items-grid">
         {popularItems.length > 0 ? (
+          
           popularItems.map((item, index) => (
             item && item.code ? (
+              
               <div
                 key={index}
                 className="popular-item-box"
@@ -71,7 +73,7 @@ function PopularItems() {
                   item.price,
                   item.name
                 )}
-              >
+              > 
                 <h3 className="item-title">{popularMapping[item.code]}</h3>
                 <h4 className="item-name">{item.name}</h4>
                 <div className="items-row">

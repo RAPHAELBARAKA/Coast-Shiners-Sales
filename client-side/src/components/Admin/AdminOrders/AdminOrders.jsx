@@ -68,7 +68,7 @@ function AdminOrders() {
             <th>Date</th>
             <th>Item(s) Ordered</th>
             <th>Quantity</th>
-            <th>Name</th>
+            <th>Orderd-By</th>
             <th>Phone</th>
             <th>Status</th>
             <th>Action</th>
@@ -92,20 +92,37 @@ function AdminOrders() {
                   )}
                 </td>
                 <td>
-                  {order.items ? order.items.reduce((total, item) => total + item.orderedQuantity, 0) : 0}
-                </td>
-                <td>{order.name}</td>
-                <td>{order.phone}</td>
+                {order.items && order.items.length > 0 ? (
+                    order.items.map((item, index) => (
+                      <div key={index} className="item-description">
+                        {item.quantity}
+                      </div>
+                    ))
+                  ) : (
+                    <div>No items</div>
+                  )}                </td>
+                <td>{order.userName}</td>
+                <td>{order.userPhone}</td>
                 <td>{order.status}</td>
                 <td>
-                  {order.status === 'Approved' ? (
-                    <>
-                      <button onClick={() => handleCancel(order._id)}>Cancel</button>
-                    </>
-                  ) : (
-                    <button onClick={() => handleApprove(order._id)}>Approve</button>
-                  )}
-                </td>
+              <button 
+                onClick={() => handleApprove(order._id)} 
+                disabled={order.status === 'Approved'}
+                style={{ marginRight: '10px' }}
+
+              >
+                Approve
+                
+              </button>
+            
+              <button 
+                onClick={() => handleCancel(order._id)} 
+                disabled={order.status == 'Cancelled'}
+              >
+                Cancel
+              </button>
+            </td>                                   
+
               </tr>
             ))
           ) : (
