@@ -1,0 +1,74 @@
+.form-container {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background-color: #27035A;
+  text-align: center;
+}
+
+.subtitle {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.instruction {
+  text-align: center;
+  margin-left: 23px;
+  margin-right: 25px;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.email {
+  color: white;
+}
+
+.otp-form {
+  margin-top: 20px;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otp-input {
+  width: 100%;
+  padding: 15px;
+
+  margin-right: 10px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Flexbox container to align buttons properly */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Aligns buttons horizontally */
+  justify-content: center;
+  gap: 10px; /* Space between the buttons */
+}
+
+.verify-btn, 
+.resend-btn {
+  width: 100%;
+  padding: 15px;
+  display: block;
+  margin: 0 auto; /* Centers the buttons horizontally */
+}
+
+.verify-btn {
+  background-color: #c00100;
+  color: white;
+}
+
+.resend-btn {
+  background-color: white;
+  color: #c00100;
+  border: 1px solid #c00100;
+}

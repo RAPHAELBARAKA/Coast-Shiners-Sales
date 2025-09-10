@@ -1,0 +1,85 @@
+.orders-container {
+  padding: 5px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.orders-table {
+  border-radius: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.orders-table th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+.orders-table td {
+  background-color: #fff;
+}
+
+.orders-table tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+.orders-table tr:hover td {
+  background-color: #f1f1f1;
+}
+
+h3 {
+  color: #97150D;
+  margin-bottom: 10px;
+}
+
+.item-description {
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.toggle-show-all {
+  color: #007bff;
+  cursor: pointer;
+  text-align: right;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Media Queries for Small Devices */
+@media (max-width: 600px) {
+  .orders-table th,
+  .orders-table td {
+    padding: 5px; /* Reduce padding for smaller screens */
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .orders-table {
+    width: 30%; /* Make sure table width fits smaller screens */
+  }
+
+  h3 {
+    font-size: 16px; /* Smaller header font size */
+  }
+
+  .item-description {
+    font-size: 14px; /* Smaller description font size */
+  }
+
+  .toggle-show-all {
+    font-size: 14px;
+    color: #007bff;
+    text-align: left;
+
+    /* Smaller font for toggle */
+  }
+}

@@ -1,0 +1,33 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.register-page-container {
+    min-height: 100vh; /* This ensures that the container takes at least 100% of the viewport height */
+    background-color: #d9d9d9;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.register-logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.register-form-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Media query to hide the logo on small screens */
+@media only screen and (max-width: 600px) {
+    .register-logo-container {
+        display: none;
+    }
+
+    .register-page-container {
+        grid-template-columns: 1fr; /* Adjust layout to a single column */
+    }
+}
