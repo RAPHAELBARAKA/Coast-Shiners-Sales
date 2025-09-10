@@ -166,7 +166,7 @@ exports.loginUser = async (req, res) => {
       const response = {
         message: 'Login successful',
         isAdmin: user.role === 'admin',
-        isDoctor: user.role === 'doctor',
+        isbackoffice: user.role === 'backoffice',
         lastLogin: previousLastLogin, // Include the last login time in the response
       };
 

@@ -45,7 +45,7 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
     },
     role: {
         type: String,
-        enum: ['user', 'admin', 'doctor'],
+        enum: ['user', 'admin', 'backoffice'],
         default: 'user' // Set default value to 'user'
     },
     loginRecords: [
