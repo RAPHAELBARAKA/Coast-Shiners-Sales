@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './LoginForm.css'; // Custom CSS file
+import './LoginForm.css'; 
 import api from "../../api/api.jsx"
 
 function Login() {
@@ -8,16 +8,19 @@ function Login() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); 
+    setErrorMessage('');
 
     try {
       const response = await api.post('/login', { email, password });
 
       if (response.status === 200) {
-        const { isAdmin, isDoctor, lastLogin } = response.data;
+        const { isAdmin, isbackoffice, lastLogin } = response.data;
 
         if (lastLogin) {
           localStorage.setItem('lastLogin', new Date(lastLogin).toLocaleString());
@@ -25,8 +28,8 @@ function Login() {
 
         if (isAdmin) {
           navigate('/admin-dashboard');
-        } else if (isDoctor) {
-          navigate('/doctor-dash');
+        } else if (isbackoffice) {
+          navigate('/backoffice-dash');
         } else {
           if (rememberMe) {
             localStorage.setItem('rememberedEmail', email);
@@ -44,6 +47,9 @@ function Login() {
       } else {
         setErrorMessage('Login failed. Please check your credentials.');
       }
+    }
+    finally {
+      setLoading(false); 
     }
   };
   return (
@@ -70,9 +76,18 @@ function Login() {
             className="login-input"
           />
         </div>
-        <button type="submit" className="login-button">Login</button>
+<button type="submit" className="login-button" disabled={loading}>
+  {loading ? (
+    <div className="spinner-container">
+      <div className="loading-spinner"></div>
+      <span>Logging in...</span>
+    </div>
+  ) : (
+    'Login'
+  )}
+    </button>
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-      </form>
+     </form>
       <div className="signup-link">
         <Link to="/register">Don't have an account? Sign Up</Link>
         <Link to="/forgot-password" className="login-forgot-password">

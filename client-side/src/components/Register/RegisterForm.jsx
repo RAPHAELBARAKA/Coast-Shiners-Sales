@@ -135,9 +135,15 @@ function RegisterForm() {
 
           {error && <p className="error-message">{error}</p>}
 
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Sign up'}
-          </button>
+         <button type="submit" disabled={loading}>
+          {loading ? (
+            <div className="spinner-container">
+              <div className="loading-spinner"></div>
+            </div>
+          ) : (
+            'Sign up'
+          )}
+        </button>
         </form>
 
         <p className="login-link">

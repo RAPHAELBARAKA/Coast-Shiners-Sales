@@ -42,12 +42,6 @@ function AppRoutes() {
         <Route path="/electronics" element={<ElectronicsPage/>} />
         <Route path="/health" element={<HealthItemsPage/>} />
         <Route path="/admin-orders" element={<AdminOrdersPage/>} />
-
-
-
-
-
-
       </Routes>
     </Router>
   );

@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import Sidebar from "../../../components/SideBar/SideBar"; // Sidebar component
-import TopNav from '../../../components/Client/TopNav/TopNav'; // TopNav component
-import './DashboardPage.css'; // Import the CSS file
+import Sidebar from "../../../components/SideBar/SideBar"; 
+import TopNav from '../../../components/Client/TopNav/TopNav'; 
+import './DashboardPage.css'; 
 import PopularItems from '../../../components/Client/PopularItems/PopularItems';
 import MyOrders from '../../../components/Client/MyOrders/MyOrders';
 
@@ -15,7 +15,7 @@ const DashboardPage = () => {
     setIsSidebarCollapsed(prevState => !prevState);
   };
   useEffect(() => {
-    // Retrieve the user's name from localStorage
+    
     const storedName = localStorage.getItem('userName');
     const storedLastLogin = localStorage.getItem('lastLogin');
 
