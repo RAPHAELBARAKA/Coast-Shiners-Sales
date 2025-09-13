@@ -2,12 +2,12 @@
 const bcrypt = require('bcryptjs');
 const userdata = require("../Model/User");
 const randomstring = require('randomstring');
-const nodemailer = require('nodemailer'); // Import nodemailer
+const Notification = require("../Model/NotificationsModel");
+const nodemailer = require('nodemailer'); 
 
 exports.registerUser = async (req, res) => {
-  // Controller logic for user registration
   const { name, email, phone, id, role, password, confirm } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10); // Increased salt rounds for stronger hashing
+  const hashedPassword = await bcrypt.hash(password, 10); 
 
   try {
     const user = await userdata.findOne({ email });
@@ -29,8 +29,25 @@ exports.registerUser = async (req, res) => {
 
     await newUser.save();
 
+    try {
+      const message = `Welcome to Coast Shiners, ${name}! Thank you for registering.`;
+      
+      const newNotification = new Notification({
+        userId: newUser._id, 
+        message,
+        type: 'registration'
+      });
+      
+      await newNotification.save();
+      console.log(`Registration notification created for user: ${name}`);
+
+      
+    } catch (notificationError) {
+      console.error('Failed to create notification:', notificationError);
+    }
+
     const otp = randomstring.generate(4);
-    newUser.otp = otp; // Save OTP to user object
+    newUser.otp = otp; 
     await newUser.save();
 
     const transporter = nodemailer.createTransport({
@@ -56,7 +73,12 @@ exports.registerUser = async (req, res) => {
       return res.status(500).json({ message: 'Internal Server Error' });
     } else {
       console.log('Email sent: ' + info.response);
-      return res.json({ message: 'User registered. Check your email for OTP.', name: newUser.name, email: newUser.email});
+      return res.json({ 
+        message: 'User registered. Check your email for OTP.',
+        name: newUser.name, 
+        email: newUser.email,
+        userId: newUser._id 
+});
     }
   });
 } catch (error) {
@@ -80,7 +102,6 @@ exports.verifyOtp = async (req, res) => {
       return res.status(400).json({ message: 'Invalid OTP' });
     }
     
-    // Set isVerified status to true upon successful OTP verification
     user.isVerified = true;
     await user.save();
 

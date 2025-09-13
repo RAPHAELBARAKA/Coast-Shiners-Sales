@@ -44,12 +44,10 @@ function RegisterForm() {
       if (response.data === "exist") {
         setError("User already exists");
       } else if (response.data.message === "User registered. Check your email for OTP.") {
-
+        localStorage.setItem('userId', response.data.userId); 
         localStorage.setItem('userName', name);
         localStorage.setItem('email', email);
         localStorage.setItem('phone', phone);
-
-
 
         navigate("/verify-otp", { state: { email } });
       } else {
@@ -70,7 +68,6 @@ function RegisterForm() {
     } else {
       setPasswordError("");
     }
-
     setPassword(value);
   };
 

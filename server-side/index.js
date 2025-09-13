@@ -40,7 +40,8 @@ app.get('/', (req, res) => {
 const UserController = require('./Controller/UserController');
 const ItemManagementController = require ('./Controller/ItemManagementController')
 const OrderController = require ("./Controller/OrderController")
-const PaymentController = require ("./Controller/PaymentController")
+const PaymentController = require ("./Controller/PaymentController");
+const Notifications = require ('./Controller/NotificationController')
 // User routes
 app.post("/", UserController.registerUser);
 app.post("/verify-otp", UserController.verifyOtp);
@@ -64,6 +65,9 @@ app.get("/get-all-items",ItemManagementController.getAllItems);
 app.put('/orders/:orderId/approve',OrderController.approveOrder);
 app.put('/orders/:orderId/cancel', OrderController.cancelOrder);
 app.delete('/orders/:orderId/delete', OrderController.deleteOrder);
+
+//Notifications
+app.get("/get-notifications/:userId",Notifications.getNotification);
 
 
 // Start the server

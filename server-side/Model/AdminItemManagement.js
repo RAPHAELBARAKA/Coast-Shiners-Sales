@@ -8,7 +8,6 @@ mongoose.connect('mongodb+srv://raphaelbaraka424:coastshiners@coastshiners.w0sxa
     console.error("Failed to connect to MongoDB:", error);
   });
 
-
 const itemSchema = new mongoose.Schema({
   code: { type: String, required: true },
   name: { type: String, required: true },

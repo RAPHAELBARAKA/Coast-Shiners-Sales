@@ -1,0 +1,133 @@
+.notification-badge {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 24px;
+  color: #555;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.notification-badge:hover {
+  background-color: #f0f2f5;
+}
+
+.notification-badge.loading {
+  opacity: 0.7;
+}
+
+.badge-count {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #ff4757;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  animation: pulse 1.5s infinite;
+}
+
+.badge-count.large {
+  font-size: 10px;
+  padding: 0 4px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 5px rgba(255, 71, 87, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+  }
+}
+
+.error-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  color: #f5222d;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-top: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+/* Optional: Add styles for a dropdown when clicked */
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 10px;
+  padding: 15px;
+}
+
+.notification-dropdown h4 {
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.notification-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-message {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.notification-time {
+  margin: 5px 0 0 0;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.view-all {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  padding: 8px;
+  background: #f0f2f5;
+  border-radius: 4px;
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.view-all:hover {
+  background: #e6e9ed;
+}
